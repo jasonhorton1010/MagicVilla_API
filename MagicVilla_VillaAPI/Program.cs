@@ -1,8 +1,19 @@
+//using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+// Configure the Serilog Logger - Remove comments to bring the Serilog back in.  Serilog Nuget packages are installed.
+//Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
+//    .WriteTo.File("log/villaLog.txt", rollingInterval: RollingInterval.Day).CreateLogger();
+
+//notify application to use Serilog rather than the defauly one.
+//builder.Host.UseSerilog();
+
+builder.Services.AddControllers(option => { 
+ //   option.ReturnHttpNotAcceptable = true; 
+}).AddNewtonsoftJson().AddXmlSerializerFormatters();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
