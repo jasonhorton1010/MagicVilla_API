@@ -3,6 +3,7 @@ using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Models.Dto;
 using MagicVilla_VillaAPI.Repository.IVillaNumberRepository;
+using MagicVilla_VillaAPI.Repository.IVillaRepository;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +19,16 @@ public class VillaNumberAPIController : ControllerBase
     private readonly ILogger<VillaNumberAPIController> _logger;
     private readonly IMapper _mapper;
     private readonly IVillaNumberRepository _dbVillaNumber;
+    private readonly IVillaRepository _dbVilla;
 
-    public VillaNumberAPIController(ILogger<VillaNumberAPIController> logger, ApplicationDbContext db, IMapper mapper, IVillaNumberRepository dbVillaNumbers)
+
+    public VillaNumberAPIController(ILogger<VillaNumberAPIController> logger, ApplicationDbContext db, IMapper mapper, IVillaNumberRepository dbVillaNumbers, IVillaRepository dbVilla)
     {
         _logger = logger;
         _mapper = mapper;
         _dbVillaNumber = dbVillaNumbers;
         this._response = new();
+        _dbVilla = dbVilla;
     }
 
 
@@ -94,7 +98,14 @@ public class VillaNumberAPIController : ControllerBase
         {
             if (await _dbVillaNumber.GetAsync(u => u.VillaNo == createDTO.VillaNo) != null)
             {
-                ModelState.AddModelError("CustomError", "Villa Number Already Exists");
+                _response.ErrorsMessages = new List<string>() { "Villa Number Already Exists" };
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                return BadRequest(_response);
+            }
+
+            if(await _dbVilla.GetAsync(u => u.Id == createDTO.VillaId) == null)
+            {
+                _response.ErrorsMessages = new List<string>() { "Villa Id is invalid" };
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 return BadRequest(_response);
             }
@@ -127,6 +138,7 @@ public class VillaNumberAPIController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<APIResponse>> DeleteVillaNumber(int id)
     {
         try
@@ -169,6 +181,13 @@ public class VillaNumberAPIController : ControllerBase
         {
             if (updateDTO == null || id != updateDTO.VillaNo)
             {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                return BadRequest(_response);
+            }
+
+            if (await _dbVilla.GetAsync(u => u.Id == updateDTO.VillaId) == null)
+            {
+                _response.ErrorsMessages = new List<string>() { "Villa Id is invalid" };
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 return BadRequest(_response);
             }

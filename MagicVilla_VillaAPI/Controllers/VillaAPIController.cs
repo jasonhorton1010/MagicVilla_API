@@ -96,7 +96,7 @@ public class VillaAPIController : ControllerBase
         {
             if (await _dbVilla.GetAsync(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
             {
-                ModelState.AddModelError("CustomError", "Villa Already Exists");
+                _response.ErrorsMessages = new List<string>() { "Villa Already Exists" };
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 return BadRequest(_response);
             }
@@ -131,6 +131,7 @@ public class VillaAPIController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<APIResponse>> DeleteVilla(int id)
     {
         try
