@@ -2,6 +2,7 @@
 
 using MagicVilla_VillaAPI;
 using MagicVilla_VillaAPI.Data;
+using MagicVilla_VillaAPI.Repository.IVillaNumberRepository;
 using MagicVilla_VillaAPI.Repository.IVillaRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 });
 
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 
 // Add Automapper as a service
 builder.Services.AddAutoMapper(typeof(MappingConfig));
