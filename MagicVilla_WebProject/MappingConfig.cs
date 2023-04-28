@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MagicVilla_WebProject.Models;
 using MagicVilla_WebProject.Models.Dto;
-using MMagicVilla_WebProjectModels.Dto;
+using MagicVilla_WebProject.Models.Dto;
 
 namespace MagicVilla_WebProject;
 
