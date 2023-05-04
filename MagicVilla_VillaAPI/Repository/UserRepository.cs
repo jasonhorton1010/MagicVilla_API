@@ -66,7 +66,6 @@ namespace MagicVilla_VillaAPI.Repository
             };
 
             return loginResponseDTO;
-
         }
 
         public async Task<LocalUser> Register(RegistrationRequestDTO registrationRequestDTO)
