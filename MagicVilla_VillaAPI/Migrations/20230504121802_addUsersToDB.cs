@@ -1,0 +1,105 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace MagicVilla_VillaAPI.Migrations
+{
+    public partial class addUsersToDB : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "LocalUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LocalUsers", x => x.Id);
+                });
+
+            migrationBuilder.UpdateData(
+                table: "Villas",
+                keyColumn: "Id",
+                keyValue: 1,
+                columns: new[] { "CreatedDate", "ImageUrl" },
+                values: new object[] { new DateTime(2023, 5, 4, 13, 18, 1, 602, DateTimeKind.Local).AddTicks(621), "https://dotnetmastery.com/bluevillaimages/villa3.jpg" });
+
+            migrationBuilder.UpdateData(
+                table: "Villas",
+                keyColumn: "Id",
+                keyValue: 2,
+                columns: new[] { "CreatedDate", "ImageUrl" },
+                values: new object[] { new DateTime(2023, 5, 4, 13, 18, 1, 602, DateTimeKind.Local).AddTicks(688), "https://dotnetmastery.com/bluevillaimages/villa1.jpg" });
+
+            migrationBuilder.UpdateData(
+                table: "Villas",
+                keyColumn: "Id",
+                keyValue: 3,
+                columns: new[] { "CreatedDate", "ImageUrl" },
+                values: new object[] { new DateTime(2023, 5, 4, 13, 18, 1, 602, DateTimeKind.Local).AddTicks(693), "https://dotnetmastery.com/bluevillaimages/villa4.jpg" });
+
+            migrationBuilder.UpdateData(
+                table: "Villas",
+                keyColumn: "Id",
+                keyValue: 4,
+                columns: new[] { "CreatedDate", "ImageUrl" },
+                values: new object[] { new DateTime(2023, 5, 4, 13, 18, 1, 602, DateTimeKind.Local).AddTicks(698), "https://dotnetmastery.com/bluevillaimages/villa5.jpg" });
+
+            migrationBuilder.UpdateData(
+                table: "Villas",
+                keyColumn: "Id",
+                keyValue: 5,
+                columns: new[] { "CreatedDate", "ImageUrl" },
+                values: new object[] { new DateTime(2023, 5, 4, 13, 18, 1, 602, DateTimeKind.Local).AddTicks(701), "https://dotnetmastery.com/bluevillaimages/villa2.jpg" });
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "LocalUsers");
+
+            migrationBuilder.UpdateData(
+                table: "Villas",
+                keyColumn: "Id",
+                keyValue: 1,
+                columns: new[] { "CreatedDate", "ImageUrl" },
+                values: new object[] { new DateTime(2023, 4, 28, 20, 54, 31, 245, DateTimeKind.Local).AddTicks(3777), "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa3.jpg" });
+
+            migrationBuilder.UpdateData(
+                table: "Villas",
+                keyColumn: "Id",
+                keyValue: 2,
+                columns: new[] { "CreatedDate", "ImageUrl" },
+                values: new object[] { new DateTime(2023, 4, 28, 20, 54, 31, 245, DateTimeKind.Local).AddTicks(3827), "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa1.jpg" });
+
+            migrationBuilder.UpdateData(
+                table: "Villas",
+                keyColumn: "Id",
+                keyValue: 3,
+                columns: new[] { "CreatedDate", "ImageUrl" },
+                values: new object[] { new DateTime(2023, 4, 28, 20, 54, 31, 245, DateTimeKind.Local).AddTicks(3831), "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa4.jpg" });
+
+            migrationBuilder.UpdateData(
+                table: "Villas",
+                keyColumn: "Id",
+                keyValue: 4,
+                columns: new[] { "CreatedDate", "ImageUrl" },
+                values: new object[] { new DateTime(2023, 4, 28, 20, 54, 31, 245, DateTimeKind.Local).AddTicks(3834), "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa5.jpg" });
+
+            migrationBuilder.UpdateData(
+                table: "Villas",
+                keyColumn: "Id",
+                keyValue: 5,
+                columns: new[] { "CreatedDate", "ImageUrl" },
+                values: new object[] { new DateTime(2023, 4, 28, 20, 54, 31, 245, DateTimeKind.Local).AddTicks(3837), "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa2.jpg" });
+        }
+    }
+}
