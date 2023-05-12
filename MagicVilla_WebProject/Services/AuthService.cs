@@ -22,7 +22,7 @@ namespace MagicVilla_WebProject.Services
             {
                 ApiType = SD.ApiType.POST,
                 Data = obj,
-                Url = villaUrl + "/api/UsersAuth/login" //Note that the 'login' is named in the [HttpPost("login")] in the MagicVilla_VillaAPI UserController Login Action
+                Url = villaUrl + "/api/UserAuth/login" //Note that the 'login' is named in the [HttpPost("login")] in the MagicVilla_VillaAPI UserController Login Action
             });
         }
 
@@ -32,7 +32,7 @@ namespace MagicVilla_WebProject.Services
             {
                 ApiType = SD.ApiType.POST,
                 Data = obj,
-                Url = villaUrl + "/api/UsersAuth/register" //Note that the 'login' is named in the [HttpPost("register")] in the MagicVilla_VillaAPI UserController Register Action
+                Url = villaUrl + "/api/UserAuth/register" //Note that the 'login' is named in the [HttpPost("register")] in the MagicVilla_VillaAPI UserController Register Action
             });
         }
     }
