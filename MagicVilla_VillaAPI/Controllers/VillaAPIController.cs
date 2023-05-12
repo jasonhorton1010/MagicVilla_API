@@ -30,7 +30,6 @@ public class VillaAPIController : ControllerBase
 
 
     [HttpGet]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<APIResponse>> GetVillas()
@@ -53,7 +52,6 @@ public class VillaAPIController : ControllerBase
     }
 
 
-    [Authorize(Roles = "admin")]
     [HttpGet("{id:int}", Name = "GetVilla")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -93,6 +91,7 @@ public class VillaAPIController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "admin")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VillaCreateDTO createDTO)
@@ -134,7 +133,7 @@ public class VillaAPIController : ControllerBase
     //Notes: putting a Name here is optional
     //By using IActionResult you don't need to define a return type, with ActionResult you do
     [HttpDelete("{id:int}", Name = "DeleteVilla")]
-    [Authorize(Roles = "CUSTOM")]
+    [Authorize(Roles = "admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -172,6 +171,7 @@ public class VillaAPIController : ControllerBase
     }
 
     [HttpPut("{id:int}", Name = "UpdateVilla")]
+    [Authorize(Roles = "admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromBody] VillaUpdateDTO updateDTO)

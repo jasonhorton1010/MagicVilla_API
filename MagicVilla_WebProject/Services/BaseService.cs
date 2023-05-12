@@ -2,6 +2,7 @@
 using MagicVilla_WebProject.Models;
 using MagicVilla_WebProject.Services.IServices;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace MagicVilla_WebProject.Services
@@ -17,21 +18,21 @@ namespace MagicVilla_WebProject.Services
             this.httpClient = httpClient;
         }
 
-        public async Task<T> SendAsync<T>(APIRequest aPIRequest)
+        public async Task<T> SendAsync<T>(APIRequest apiRequest)
         {
             try
             {
                 var client = httpClient.CreateClient("MagicAPI");
                 HttpRequestMessage message = new HttpRequestMessage();
                 message.Headers.Add("Accept", "application/json");
-                message.RequestUri = new Uri(aPIRequest.Url);
+                message.RequestUri = new Uri(apiRequest.Url);
                 
-                if(aPIRequest.Data != null)
+                if(apiRequest.Data != null)
                 {
-                    message.Content = new StringContent(JsonConvert.SerializeObject(aPIRequest.Data), Encoding.UTF8, "application/json");
+                    message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Data), Encoding.UTF8, "application/json");
                 }
 
-                switch(aPIRequest.ApiType)
+                switch(apiRequest.ApiType)
                 {
                     case SD.ApiType.POST:
                         message.Method = HttpMethod.Post;
@@ -45,10 +46,14 @@ namespace MagicVilla_WebProject.Services
                     default:
                         message.Method = HttpMethod.Get;
                         break;
-
                 }
 
                 HttpResponseMessage apiResponse = null;
+
+                if(!string.IsNullOrEmpty(apiRequest.Token))
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.Token);
+                }
 
                 apiResponse = await client.SendAsync(message);
 
