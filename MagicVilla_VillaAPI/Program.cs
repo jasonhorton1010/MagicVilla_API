@@ -12,6 +12,7 @@ using Microsoft.Extensions.ObjectPool;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +37,15 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Add Automapper as a service
 builder.Services.AddAutoMapper(typeof(MappingConfig));
+
+// Add versioning for the APIs
+// As we have below added the global support for API Versioning,
+// it means that it is expected to provide an API version with all the endpoints.
+// As an endpoint may not have an API version, default opptions are set-up.
+builder.Services.AddApiVersioning(options => {
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0); // Major . Minor versions.  We have set this up only to deal with major versions
+});
 
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 
