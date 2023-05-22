@@ -31,15 +31,27 @@ public class VillaAPIController : ControllerBase
 
 
     [HttpGet]
+    //[ResponseCache(Duration = 30)] //Cache this endpoint for every 30 seconds. Eg if we receive 50 reqs in 1 min, it will be reduced to 2 requests as every 30s it is caching what is being returned
+    [ResponseCache(CacheProfileName = "Default30")] // this shows how to use a Cache profiel configures in program.cs - search for "option.CacheProfiles.Add"
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public async Task<ActionResult<APIResponse>> GetVillas()
+    public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "FilterOccupancy")] int? occupancy)
     {
         _logger.LogInformation("Getting all villas");
 
         try
         {
-            IEnumerable<Villa> villaList = await _dbVilla.GetAllAsync();
+            IEnumerable<Villa> villaList;
+            
+            if(occupancy > 0)
+            {
+                villaList = await _dbVilla.GetAllAsync(u => u.Occupancy == occupancy);
+            }
+            else
+            {
+                villaList = await _dbVilla.GetAllAsync();
+            }
+            
             _response.Result = _mapper.Map<List<VillaDTO>>(villaList);
             _response.StatusCode = HttpStatusCode.OK;
             return Ok(_response);
