@@ -35,7 +35,7 @@ public class VillaAPIController : ControllerBase
     [ResponseCache(CacheProfileName = "Default30")] // this shows how to use a Cache profiel configures in program.cs - search for "option.CacheProfiles.Add"
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "FilterOccupancy")] int? occupancy)
+    public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "FilterOccupancy")] int? occupancy, [FromQuery] string? search)
     {
         _logger.LogInformation("Getting all villas");
 
@@ -50,6 +50,11 @@ public class VillaAPIController : ControllerBase
             else
             {
                 villaList = await _dbVilla.GetAllAsync();
+            }
+
+            if(!string.IsNullOrEmpty(search))
+            {
+                villaList = villaList.Where(u => u.Name.ToLower().Contains(search));
             }
             
             _response.Result = _mapper.Map<List<VillaDTO>>(villaList);
