@@ -37,7 +37,7 @@ public class VillaAPIController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "FilterOccupancy")] int? occupancy, 
-        [FromQuery] string? search, int pageSize = 2, int pageNumber = 1)
+        [FromQuery] string? search, int pageSize = 0, int pageNumber = 1)
     {
         _logger.LogInformation("Getting all villas");
 

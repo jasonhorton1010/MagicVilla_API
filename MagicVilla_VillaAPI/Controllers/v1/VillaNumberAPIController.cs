@@ -73,6 +73,7 @@ public class VillaNumberAPIController : ControllerBase
             {
                 _logger.LogInformation("Get VillaNumber Error with Id: " + id);
                 _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
                 return BadRequest(_response);
             }
 
@@ -81,11 +82,13 @@ public class VillaNumberAPIController : ControllerBase
             if (villaNumber == null)
             {
                 _response.StatusCode = HttpStatusCode.NotFound;
+                _response.IsSuccess = false;
                 return NotFound(_response);
             }
 
             _response.Result = _mapper.Map<VillaNumberDTO>(villaNumber);
             _response.StatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
             return Ok(_response);
         }
         catch (Exception ex)
